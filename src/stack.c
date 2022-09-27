@@ -1,14 +1,15 @@
 #include <stdio.h>
+#include "stack.h"
 
 /* Globaalse pinu massiivi pikkus. */
-#define stack_size 100
+#define STACK_SIZE 100
 
 /* Pinu struktuur, mis sisaldab nii pinu pikkust kui ka pinu ennast, mis on
    täisarvude massiiv.
 */
 struct stack_st {
     int len;
-    int arr[stack_size];
+    int arr[STACK_SIZE];
 };
 
 /* Pinu struktuuri muutuja. */
@@ -20,7 +21,7 @@ struct stack_st stack = { .len = 0};
 
 void stack_push(int element) {
     /* Kontrollime kas pinus on veel ruumi, kui ei ole, siis trükime ekraanile veateate. */
-    if (stack.len >= stack_size) {
+    if (stack.len >= STACK_SIZE) {
         printf("Viga: pinusse rohkem elemente ei mahu\n");
         return;
     }
@@ -86,3 +87,36 @@ int stack_pop(void) {
     /* Tagastame eemaldatud väärtuse. */
     return element;
 }
+
+/*
+int main(void) {
+    int input;
+
+    while (1) {
+        scanf("%d", &input);
+
+        if (input == 0) {
+            stack_print();
+            break;
+        } else if (stack_isEmpty()) {
+            stack_push(input);
+        } else if (input > 0) {
+            if (stack_peek() > 0) {
+                stack_push(input);
+            } else {
+                int element = stack_pop() + input;
+                if (element != 0) {
+                    stack_push(element);
+                }
+            }
+        } else {
+            int element = stack_pop() + input;
+            if (element != 0) {
+                stack_push(element);
+            }
+        }
+    }
+
+    return 0;
+}
+*/

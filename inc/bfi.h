@@ -1,33 +1,15 @@
-#include <stdio.h>
-#include "mem.h"
+#ifndef __BFI_H__
+#define __BFI_H__
 
-/* Selles enumeratsioonis on toodud kõik Brainfuck'i keele sümbolid. */
 enum instructions_e {
-    /* Liiguta mälu indeksit paremale. */
     BF_RIGHT      = '>',
-
-    /* Liiguta mälu indeksit vasakule. */
     BF_LEFT       = '<',
-
-    /* Suurenda mälu indeksil olevat väärtust. */
     BF_INCREASE   = '+',
-
-    /* Vähenda mälu indeksil olevat väärtust. */
     BF_DECREASE   = '-',
-
-    /* Loe kasutajalt sisendit ja salvesta see mäluindeksile. */
     BF_READ       = ',',
-
-    /* Trüki välja mälu indeksil olev väärtus char'ina. */
     BF_PRINT      = '.',
-
-    /* Tsükli algus. */
     BF_START_LOOP = '[',
-
-    /* Tsükli lõpp. */
     BF_END_LOOP   = ']',
-
-    /* Trüki silumise informatsioon. */
     BF_DEBUG      = '#'
 };
 
@@ -50,7 +32,7 @@ void interpret(char *program) {
             case BF_DEBUG:
                 mem_printDebug();
                 break;
-            default:
+            default:;
                 /* Ignoreerime sümboleid, mida me ei tunne. */
         }
 
@@ -58,10 +40,4 @@ void interpret(char *program) {
     }
 }
 
-int main() {
-
-    interpret("++++>>++<<#");
-    /* Eeldatav väljund:
-       index: 0 mem[0 .. 9]: 4 0 2 0 0 0 0 0 0 0
-    */
-}
+#endif

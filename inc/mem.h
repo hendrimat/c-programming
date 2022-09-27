@@ -1,6 +1,15 @@
 #ifndef __MEM_H__
 #define __MEM_H__
 
+#define MEM_SIZE 30000
+
+struct mem_st {
+    int len_start;
+    int len_end;
+    char arr[MEM_SIZE];
+    int index;
+};
+
 void mem_init(void);
 
 int mem_inc(void);

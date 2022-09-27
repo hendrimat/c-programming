@@ -1,15 +1,11 @@
 #include <stdio.h>
+#include "mem.h"
 
-#define mem_size 30000
-
-struct mem_st {
-    int len_start;
-    int len_end;
-    int arr[mem_size];
-    int index;
+struct mem_st mem = { 
+    .index = 0, 
+    .len_start = 0, 
+    .len_end = 0
 };
-
-struct mem_st mem = { .index = 0, .len_start = 0, .len_end = 0};
 
 void mem_init() {
     if (mem.index < mem.len_start) {
@@ -18,6 +14,12 @@ void mem_init() {
     } else if (mem.index >= mem.len_end) {
         mem.arr[mem.index] = 0;
         mem.len_end += 1;
+    }
+    
+    if (mem.index < 0) {
+        mem.index = MEM_SIZE + mem.index;
+    } else if (mem.index >= MEM_SIZE) {
+        mem.index = mem.index - MEM_SIZE ;
     }
 
     return;
@@ -59,9 +61,9 @@ int mem_set(char v) {
 void mem_printDebug() {
     printf("index: %d mem [%d .. %d]: ", mem.index, mem.index, mem.index + 9);
     
-    int i;
+/*   int i;*/
 
-    for (i = 0; i < 10; ++i) {
+    for (int i = 0; i < 10; ++i) {
         int new_index = mem_right();
         printf("%d ", mem.arr[new_index - 1]);
     }
