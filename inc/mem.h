@@ -4,8 +4,6 @@
 #define MEM_SIZE 30000
 
 struct mem_st {
-    int len_start;
-    int len_end;
     char arr[MEM_SIZE];
     int index;
 };

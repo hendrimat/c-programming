@@ -1,5 +1,7 @@
-CFLAGS := -std=c99 -g -Werror -Wall -Wpedantic
+CFLAGS := -std=c99 -g -Werror -Wall -Wpedantic -DDEBUG
 INC := inc # Päisefailid
+
+EXE := lib/interpreter
 
 # Lähtekood (kõik src/.c failid)
 SRCS := $(wildcard src/*.c)
@@ -8,12 +10,12 @@ SRCS := $(wildcard src/*.c)
 LIBS := $(patsubst src/%.c, obj/%.o, $(SRCS))
 
 # tulemus : nõuded (prerequisites)
-lib/interpreter: $(LIBS) lib
-	gcc -I$(INC) $(CFLAGS) $(LIBS) -o lib/interpreter
+lib/interpreter: $(LIBS)
+	gcc -I$(INC) $(CFLAGS) $(LIBS) -o $(EXE)
 
 # $@ - kompileerimise tulemus ehk %.o (nt stack.o)
 # $< - kompileerimise alus    ehk %.c (nt stack.c)
-obj/%.o: src/%.c obj
+obj/%.o: src/%.c
 	gcc -I$(INC) -c $(CFLAGS) -o $@ $<
 
 obj:
@@ -24,9 +26,9 @@ lib:
 
 # See on lihtsalt käsk
 .PHONY: run
-run: lib/interpreter
-	./lib/interpreter
+run: $(EXE)
+	./$(EXE)
 
 .PHONY: clean
 clean:
-	rm -rf obj/ lib/
+	rm -rf obj/* lib/*
