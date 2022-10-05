@@ -1,18 +1,20 @@
 #ifndef __STACK_H__
 #define __STACK_H__
 
-/* Funktsioon push saab parameetriks int tüüpi väärtuse, mille lisab globaalsesse pinusse, kui
- * selles on veel ruumi. Vastasel korral trükib ekkraanile vea. Funktsioon ei tagasta midagi.
+/* Funktsioon push saab parameetriks int tüüpi väärtuse, mille lisab
+ * globaalsesse pinusse, kui selles on veel ruumi. Vastasel korral trükib
+ * ekraanile vea. Funktsioon ei tagasta midagi.
  */
 void stack_push(int element);
 
-/* Funktsioon pop ei saa ühtegi parameetrit ja tagastab globaalse pinu pealmise elemendi, mille ta
- * pinust eemaldab. Kui pinu on juba tühi, siis funktsioon tagastab väärtuse 0.
+/* Funktsioon pop ei saa ühtegi parameetrit ja tagastab globaalse pinu pealmise
+ * elemendi, mille ta pinust eemaldab. Kui pinu on juba tühi, siis funktsioon
+ * tagastab väärtuse 0.
  */
 int stack_pop(void);
 
-/* Funktsioon isEmpty tagastab tõeväärtuse (0-vale ja mitte 0 tõene) vastavalt sellele kas
- * pinu on tühi või mitte.
+/* Funktsioon isEmpty tagastab tõeväärtuse (0-vale ja mitte 0 tõene) vastavalt
+ * sellele kas pinu on tühi või mitte.
  */
 int stack_isEmpty(void);
 
@@ -21,8 +23,8 @@ int stack_isEmpty(void);
  */
 int stack_peek(void);
 
-
-/* Funktsioon print_stack trükib ekraanile kõik pinu elemendid eraldi reale alustades ülemisest.
+/* Funktsioon print_stack trükib ekraanile kõik pinu elemendid eraldi reale
+ * alustades ülemisest.
  */
 void stack_print(void);
 

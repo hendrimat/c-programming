@@ -1,4 +1,4 @@
-CFLAGS := -std=c99 -g -Werror -Wall -Wpedantic -DDEBUG
+CFLAGS := -std=c99 -g -Werror -Wall -Wpedantic
 INC := inc # Päisefailid
 
 EXE := lib/interpreter

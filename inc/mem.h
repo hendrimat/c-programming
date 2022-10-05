@@ -8,8 +8,6 @@ struct mem_st {
     int index;
 };
 
-void mem_init(void);
-
 int mem_inc(void);
 
 int mem_dec(void);
@@ -21,6 +19,10 @@ int mem_right(void);
 int mem_get(void);
 
 int mem_set(char v);
+
+void mem_print(void);
+
+void mem_read(void);
 
 void mem_printDebug(void);
 

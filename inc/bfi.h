@@ -1,12 +1,6 @@
 #ifndef __BFI_H__
 #define __BFI_H__
 
-#ifdef DEBUG
-  #define PRINT_PARAMS "'%c' (kood = %d)\n", c, c
-#else
-  #define PRINT_PARAMS "%c", c
-#endif
-
 enum instructions_e {
     BF_RIGHT      = '>',
     BF_LEFT       = '<',
@@ -21,7 +15,7 @@ enum instructions_e {
 
 void interpret(char *program) {
     int i = 0;
-    while (program[i] != 0 ) {
+    while (program[i] != 0) {
         switch (program[i]) {
             case BF_INCREASE:
                 mem_inc();
@@ -38,24 +32,31 @@ void interpret(char *program) {
             case BF_DEBUG:
                 mem_printDebug();
                 break;
-            case BF_READ: {
-                /* Loeme märgi standardsisendist (kasutaja sisestab konsooli). */
-                int c = getc(stdin);
-                if (EOF == c) {
-                    /* Sisendi lõpu korral lõpetame interpretaatori töö. */
-                    printf("Sisendi lõpp!\n");
-                    return;
+            case BF_READ:
+                mem_read();
+                break;
+            case BF_PRINT:
+                mem_print();
+                break;
+            case BF_START_LOOP: {
+                if (mem_get() != 0) {
+                    stack_push(i);
+                } else {
+                    int loendur = 1;
+                    while (loendur > 0) {
+                        i++;
+                        if (program[i] == BF_START_LOOP) {
+                            loendur++;
+                        } else if (program[i] == BF_END_LOOP) {
+                            loendur--;
+                        }
+                    }
                 }
-
-                /* Lisame mällu loetud väärtuse. */
-                mem_set(c);
                 break;
             }
-            case BF_PRINT: {
-                char c = mem_get();
-                printf(PRINT_PARAMS);
+            case BF_END_LOOP:
+                i = stack_pop() - 1;
                 break;
-            }
             default:;
                 /* Ignoreerime sümboleid, mida me ei tunne. */
         }
