@@ -39,16 +39,16 @@ void interpret(char *program) {
                 mem_print();
                 break;
             case BF_START_LOOP: {
-                if (mem_get() != 0) {
+                if (mem_get()) {
                     stack_push(i);
                 } else {
-                    int loendur = 1;
-                    while (loendur > 0) {
+                    int counter = 1;
+                    while (counter > 0) {
                         i++;
                         if (program[i] == BF_START_LOOP) {
-                            loendur++;
+                            counter++;
                         } else if (program[i] == BF_END_LOOP) {
-                            loendur--;
+                            counter--;
                         }
                     }
                 }
@@ -58,7 +58,6 @@ void interpret(char *program) {
                 i = stack_pop() - 1;
                 break;
             default:;
-                /* Ignoreerime sümboleid, mida me ei tunne. */
         }
 
         i++;
