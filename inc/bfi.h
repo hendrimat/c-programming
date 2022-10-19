@@ -62,6 +62,7 @@ void interpret(char *program) {
 
         i++;
     }
+    stack_free();
 }
 
 #endif

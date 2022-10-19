@@ -1,6 +1,15 @@
 #ifndef __STACK_H__
 #define __STACK_H__
 
+/* Pinu struktuur, mis sisaldab nii pinu elementide arvu kui ka pinu massivi ja selle
+   massiivi reaalset pikkust.
+*/
+struct stack_st {
+	int len;
+	int size;
+	int *arr;
+};
+
 /* Funktsioon push saab parameetriks int tüüpi väärtuse, mille lisab
  * globaalsesse pinusse, kui selles on veel ruumi. Vastasel korral trükib
  * ekraanile vea. Funktsioon ei tagasta midagi.
@@ -12,6 +21,9 @@ void stack_push(int element);
  * tagastab väärtuse 0.
  */
 int stack_pop(void);
+
+/* Funktsioon free vabastab allokeeritud mälu. */
+void stack_free(void);
 
 /* Funktsioon isEmpty tagastab tõeväärtuse (0-vale ja mitte 0 tõene) vastavalt
  * sellele kas pinu on tühi või mitte.
