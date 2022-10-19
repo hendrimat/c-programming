@@ -1,3 +1,5 @@
+#include <stddef.h>
+
 #ifndef __BFI_H__
 #define __BFI_H__
 
@@ -15,6 +17,7 @@ enum instructions_e {
 
 void interpret(char *program) {
     int i = 0;
+    struct stack_st stack = {.len = 0, .size = 0, .arr = NULL};
     while (program[i] != 0) {
         switch (program[i]) {
             case BF_INCREASE:
@@ -40,7 +43,7 @@ void interpret(char *program) {
                 break;
             case BF_START_LOOP: {
                 if (mem_get()) {
-                    stack_push(i);
+                    stack_push(&stack, i);
                 } else {
                     int counter = 1;
                     while (counter > 0) {
@@ -55,14 +58,14 @@ void interpret(char *program) {
                 break;
             }
             case BF_END_LOOP:
-                i = stack_pop() - 1;
+                i = stack_pop(&stack) - 1;
                 break;
             default:;
         }
 
         i++;
     }
-    stack_free();
+    stack_free(&stack);
 }
 
 #endif

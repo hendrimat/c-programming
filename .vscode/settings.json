@@ -1,5 +1,5 @@
 {
-    "C_Cpp.clang_format_style": "{BasedOnStyle: LLVM, IndentWidth: 4, TabWidth: 4, UseTab: Never, IndentCaseLabels: True, PPDirectiveIndentStyle: BeforeHash, SortIncludes: Never}",
+    "C_Cpp.clang_format_style": "{BasedOnStyle: LLVM, IndentWidth: 4, TabWidth: 4, UseTab: Never, IndentCaseLabels: True, SortIncludes: Never}",
     "files.associations": {
         "cstdlib": "c"
     }

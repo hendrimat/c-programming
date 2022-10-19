@@ -7,65 +7,65 @@ struct mem_st mem = {
 };
 
 int mem_inc() {
-	mem.arr[mem.index] += 1;
-	return mem.arr[mem.index];
+    mem.arr[mem.index] += 1;
+    return mem.arr[mem.index];
 }
 
 int mem_dec() {
-	mem.arr[mem.index] -= 1;
-	return mem.arr[mem.index];
+    mem.arr[mem.index] -= 1;
+    return mem.arr[mem.index];
 }
 
 int mem_left() {
-	mem.index -= 1;
-	if (mem.index < 0) {
-		mem.index = MEM_SIZE + mem.index;
-	}
-	return mem.index;
+    mem.index -= 1;
+    if (mem.index < 0) {
+        mem.index = MEM_SIZE + mem.index;
+    }
+    return mem.index;
 }
 
 int mem_right() {
-	mem.index += 1;
-	if (mem.index >= MEM_SIZE) {
-		mem.index = mem.index - MEM_SIZE;
-	}
-	return mem.index;
+    mem.index += 1;
+    if (mem.index >= MEM_SIZE) {
+        mem.index = mem.index - MEM_SIZE;
+    }
+    return mem.index;
 }
 
 int mem_get() { return mem.arr[mem.index]; }
 
 int mem_set(char v) {
-	mem.arr[mem.index] = v;
-	return v;
+    mem.arr[mem.index] = v;
+    return v;
 }
 
 void mem_read() {
-	/* Loeme märgi standardsisendist (kasutaja sisestab konsooli). */
-	int c = getc(stdin);
-	if (EOF == c) {
-		/* Sisendi lõpu korral lõpetame interpretaatori töö. */
-		printf("Sisendi lõpp!\n");
-		return;
-	}
+    /* Loeme märgi standardsisendist (kasutaja sisestab konsooli). */
+    int c = getc(stdin);
+    if (EOF == c) {
+        /* Sisendi lõpu korral lõpetame interpretaatori töö. */
+        printf("Sisendi lõpp!\n");
+        return;
+    }
 
-	/* Lisame mällu loetud väärtuse. */
-	mem_set(c);
+    /* Lisame mällu loetud väärtuse. */
+    mem_set(c);
 }
 
 void mem_print() {
-	char c = mem_get();
-	putc(c, stdout);
+    char c = mem_get();
+    putc(c, stdout);
 }
 
 void mem_printDebug() {
-	printf("index: %d mem [%d .. %d]: ", mem.index, mem.index, mem.index + 9);
-	for (int i = 0; i < 9; ++i) {
-		printf("%d ", mem.arr[mem.index]);
-		mem_right();
-	}
-	printf("%d", mem.arr[mem.index]);
-	for (int i = 0; i < 9; ++i) {
-		mem_left();
-	}
-	return;
+    printf("index: %d mem [%d .. %d]: ", mem.index, mem.index, mem.index + 9);
+    for (int i = 0; i < 9; ++i) {
+        printf("%d ", mem.arr[mem.index]);
+        mem_right();
+    }
+    printf("%d", mem.arr[mem.index]);
+    for (int i = 0; i < 9; ++i) {
+        mem_left();
+    }
+    return;
 }
