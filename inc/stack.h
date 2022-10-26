@@ -7,13 +7,14 @@
 struct stack_st {
     /* Elementide arv, mis on pinusse lisatud. */
     int len;
-
     /* Massiivi mahtuvus - mitme elemendi jaoks on ruumi. */
     int size;
-
     /* Viit allokeeritud mälule. */
     int *arr;
 };
+
+#define EMPTY_STACK                                                            \
+    (struct stack_st) { 0, 0, NULL }
 
 /* Funktsioon push saab parameetriks int tüüpi väärtuse, mille lisab
  * globaalsesse pinusse, kui selles on veel ruumi. Vastasel korral trükib

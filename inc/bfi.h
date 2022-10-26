@@ -4,20 +4,20 @@
 #define __BFI_H__
 
 enum instructions_e {
-    BF_RIGHT      = '>',
-    BF_LEFT       = '<',
-    BF_INCREASE   = '+',
-    BF_DECREASE   = '-',
-    BF_READ       = ',',
-    BF_PRINT      = '.',
+    BF_RIGHT = '>',
+    BF_LEFT = '<',
+    BF_INCREASE = '+',
+    BF_DECREASE = '-',
+    BF_READ = ',',
+    BF_PRINT = '.',
     BF_START_LOOP = '[',
-    BF_END_LOOP   = ']',
-    BF_DEBUG      = '#'
+    BF_END_LOOP = ']',
+    BF_DEBUG = '#'
 };
 
 void interpret(char *program) {
     int i = 0;
-    struct stack_st stack = {.len = 0, .size = 0, .arr = NULL};
+    struct stack_st loop_stack = EMPTY_STACK;
     while (program[i] != 0) {
         switch (program[i]) {
             case BF_INCREASE:
@@ -43,7 +43,7 @@ void interpret(char *program) {
                 break;
             case BF_START_LOOP: {
                 if (mem_get()) {
-                    stack_push(&stack, i);
+                    stack_push(&loop_stack, i);
                 } else {
                     int counter = 1;
                     while (counter > 0) {
@@ -58,14 +58,14 @@ void interpret(char *program) {
                 break;
             }
             case BF_END_LOOP:
-                i = stack_pop(&stack) - 1;
+                i = stack_pop(&loop_stack) - 1;
                 break;
             default:;
         }
 
         i++;
     }
-    stack_free(&stack);
+    stack_free(&loop_stack);
 }
 
 #endif
