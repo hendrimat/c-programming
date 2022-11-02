@@ -1,36 +1,39 @@
 #include "mem.h"
 #include <stdio.h>
+#include <string.h>
 
 struct mem_st mem = {
     .arr = {0},
     .index = 0,
 };
 
-int mem_inc() {
-    mem.arr[mem.index] += 1;
+int mem_add(int amount) {
+    mem.arr[mem.index] += amount;
     return mem.arr[mem.index];
 }
 
-int mem_dec() {
-    mem.arr[mem.index] -= 1;
-    return mem.arr[mem.index];
-}
-
-int mem_left() {
-    mem.index -= 1;
+int mem_move(int numberOfPos) {
+    mem.index += numberOfPos;
     if (mem.index < 0) {
         mem.index = MEM_SIZE + mem.index;
+    } else if (mem.index >= MEM_SIZE) {
+        mem.index %= MEM_SIZE;
     }
     return mem.index;
 }
 
-int mem_right() {
-    mem.index += 1;
-    if (mem.index >= MEM_SIZE) {
-        mem.index = mem.index - MEM_SIZE;
-    }
-    return mem.index;
+void mem_init() {
+    memset(mem.arr, 0, MEM_SIZE * sizeof(char));
+    mem.index = 0;
 }
+
+int mem_inc() { return mem_add(1); }
+
+int mem_dec() { return mem_add(-1); }
+
+int mem_left() { return mem_move(-1); }
+
+int mem_right() { return mem_move(1); }
 
 int mem_get() { return mem.arr[mem.index]; }
 
