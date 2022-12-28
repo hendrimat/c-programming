@@ -1,7 +1,7 @@
-CFLAGS := -std=c17 -g -Werror -Wall -Wpedantic
+CFLAGS := -std=c17 -g -Werror -Wall -Wpedantic -m32
 INC := inc # Päisefailid
 
-EXE := lib/interpreter
+EXE := lib/compiler
 
 # Lähtekood (kõik src/.c failid)
 SRCS := $(wildcard src/*.c)
@@ -9,8 +9,8 @@ SRCS := $(wildcard src/*.c)
 # Objektfailid
 LIBS := $(patsubst src/%.c, obj/%.o, $(SRCS))
 
-# tulemus : nõuded (prerequisites)
-lib/interpreter: $(LIBS)
+.PHONY: compiler
+compiler: $(LIBS)
 	gcc -I$(INC) $(CFLAGS) $(LIBS) -o $(EXE)
 
 # $@ - kompileerimise tulemus ehk %.o (nt stack.o)
@@ -24,11 +24,14 @@ obj:
 lib:
 	mkdir -p lib
 
-# See on lihtsalt käsk
+
 .PHONY: run
 run: $(EXE)
-	./$(EXE)
+	./$(EXE) '>++++++++[<+++++++++>-]<.>++++[<+++++++>-]<+.+++++++..+++.>>++++++[<+++++++>-]<++.------------.>++++++[<+++++++++>-]<+.<.+++.------.--------.>>>++++[<++++++++>-]<+.' > hello.asm
+	nasm -felf hello.asm -o ./obj/hello.o
+	gcc -m32 -no-pie ./obj/mem.o ./obj/hello.o -o hello
+	./hello
 
 .PHONY: clean
 clean:
-	rm -rf obj/* lib/*
+	rm -rf obj/* lib/* hello*

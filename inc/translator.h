@@ -10,8 +10,11 @@ struct BF_instruction_st {
        instruktsiooni objektile teine on viit instruktsiooni indeksile, mida
        antud funktsioon peab kas suurendama või muutma (näiteks tsüklites).
     */
-
     void (*run)(struct BF_instruction_st *instruction, int *index);
+
+    /* Assembleri implementatsiooni funktsioon. Trükib välja vastava
+       instruktsiooni implementatsiooni assembleris. */
+    void (*printAsm)(struct BF_instruction_st *instruction, int *index);
 
     /* Implementatsiooni spetsiifilised väärtused. */
     union {
@@ -31,5 +34,7 @@ struct BF_instruction_st {
 };
 
 void interpret2(char *program);
+
+void printAsm(struct BF_instruction_st **inst_arr, int inst_arr_len);
 
 #endif

@@ -17,12 +17,32 @@ void BF_increment_run(struct BF_instruction_st *instruction, int *index) {
     *index = *index + 1;
 }
 
+void BF_increment_printAsm(struct BF_instruction_st *instruction, int *index) {
+    if (instruction->increment == 1) {
+        printf("    ;;;; Instruktsioon +\n");
+        printf("    call mem_inc\n");
+    } else if (instruction->increment == -1) {
+        printf("    ;;;; Instruktsioon -\n");
+        printf("    call mem_dec\n");
+    }
+}
+
 void BF_move_run(struct BF_instruction_st *instruction, int *index) {
     /* Suurendame mälu väärtust vastavalt konstruktoris seatud väärtusele! */
     mem_move(instruction->numberOfPos);
 
     /* Suurendame instruktsiooniloendurit ühe võrra. */
     *index = *index + 1;
+}
+
+void BF_move_printAsm(struct BF_instruction_st *instruction, int *index) {
+    if (instruction->numberOfPos == 1) {
+        printf("    ;;;; Instruktsioon >\n");
+        printf("    call mem_right\n");
+    } else if (instruction->numberOfPos == -1) {
+        printf("    ;;;; Instruktsioon <\n");
+        printf("    call mem_left\n");
+    }
 }
 
 void BF_debug_run(struct BF_instruction_st *instruction, int *index) {
@@ -40,6 +60,14 @@ void BF_output_run(struct BF_instruction_st *instruction, int *index) {
 
     /* Suurendame instruktsiooniloendurit ühe võrra. */
     *index = *index + 1;
+}
+
+void BF_output_printAsm(struct BF_instruction_st *instruction, int *index) {
+    printf("    ;;;; Instruktsioon .\n");
+    printf("    call mem_get\n");
+    printf("    push eax\n");
+    printf("    call putchar\n");
+    printf("    add esp, 4\n");
 }
 
 void BF_input_run(struct BF_instruction_st *instruction, int *index) {
@@ -76,6 +104,14 @@ void BF_beginLoop_run(struct BF_instruction_st *instruction, int *index) {
     }
 }
 
+void BF_beginLoop_printAsm(struct BF_instruction_st *instruction, int *index) {
+    printf("    ;;;; Instruktsioon [\n");
+    printf("silt_%d:\n", *index);
+    printf("    call mem_get\n");
+    printf("    cmp eax, 0\n");
+    printf("    je silt_%d\n", instruction->loopForwardIndex);
+}
+
 void BF_endLoop_run(struct BF_instruction_st *instruction, int *index) {
     int val = mem_get();
 
@@ -92,6 +128,12 @@ void BF_endLoop_run(struct BF_instruction_st *instruction, int *index) {
         /* Mine tagasi tsükli algusesse. */
         *index = instruction->loopBackIndex;
     }
+}
+
+void BF_endLoop_printAsm(struct BF_instruction_st *instruction, int *index) {
+    printf("    ;;;; Instruktsioon ]\n");
+    printf("    jmp silt_%d\n", instruction->loopForwardIndex);
+    printf("silt_%d:\n", *index);
 }
 
 /* Konstruktor funktsioon BF_increment_new loob uue struktuuri, mis suurendab
@@ -118,6 +160,7 @@ struct BF_instruction_st *BF_increment_new(int increment) {
     /* Väärtustame inkremendi. */
     new->increment = increment;
     new->run = BF_increment_run;
+    new->printAsm = BF_increment_printAsm;
 cleanup:
     return new;
 }
@@ -142,6 +185,7 @@ struct BF_instruction_st *BF_move_new(int numberOfPos) {
     /* Väärtustame inkremendi. */
     new->numberOfPos = numberOfPos;
     new->run = BF_move_run;
+    new->printAsm = BF_move_printAsm;
 cleanup:
     return new;
 }
@@ -174,6 +218,7 @@ struct BF_instruction_st *BF_output_new() {
     }
 
     new->run = BF_output_run;
+    new->printAsm = BF_output_printAsm;
 cleanup:
     return new;
 }
@@ -215,6 +260,7 @@ struct BF_instruction_st *BF_beginLoop_new(void) {
        ei saa korrektne olla.*/
     new->loopForwardIndex = -1;
     new->run = BF_beginLoop_run;
+    new->printAsm = BF_beginLoop_printAsm;
 cleanup:
     return new;
 }
@@ -236,6 +282,7 @@ struct BF_instruction_st *BF_endLoop_new(int loopBackIndex) {
 
     new->loopBackIndex = loopBackIndex;
     new->run = BF_endLoop_run;
+    new->printAsm = BF_endLoop_printAsm;
 cleanup:
     return new;
 }
@@ -317,6 +364,35 @@ void run(struct BF_instruction_st **inst_arr, int inst_arr_len) {
     }
 }
 
+void printAsm(struct BF_instruction_st **inst_arr, int inst_arr_len) {
+
+    printf("global main\n"
+           "extern mem_add\n"
+           "extern mem_move\n"
+           "extern mem_inc\n"
+           "extern mem_dec\n"
+           "extern mem_left\n"
+           "extern mem_right\n"
+           "extern mem_get\n"
+           "extern mem_set\n"
+           "extern mem_printDebug\n\n"
+           "extern putchar\n\n");
+
+    printf("section .text\n");
+    printf("main:\n");
+
+    /* Käime läbi kõik instruktsioonid ja käivitame neil
+       funktsiooni printAsm. */
+    for (int i = 0; i < inst_arr_len; i++) {
+        if (inst_arr[i] != NULL) {
+            inst_arr[i]->printAsm(inst_arr[i], &i);
+        }
+    }
+
+    /* Funktsiooni main lõpp. */
+    printf("    ret\n");
+}
+
 void interpret2(char *program) {
     /* Leiame programmi lähtekoodi pikkuse. */
     int program_len = strlen(program);
@@ -332,7 +408,7 @@ void interpret2(char *program) {
     parse(inst_arr, program);
 
     /* Käivitame programmi. */
-    run(inst_arr, program_len);
+    printAsm(inst_arr, program_len);
 
     /* Vabastame mälu */
     for (int i = 0; i < program_len; i++) {
