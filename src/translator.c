@@ -53,6 +53,11 @@ void BF_debug_run(struct BF_instruction_st *instruction, int *index) {
     *index = *index + 1;
 }
 
+void BF_debug_printAsm(struct BF_instruction_st *instruction, int *index) {
+    printf("    ;;;; Instruktsioon #\n");
+    printf("    call mem_printDebug\n");
+}
+
 void BF_output_run(struct BF_instruction_st *instruction, int *index) {
     /* Suurendame mälu väärtust vastavalt konstruktoris seatud väärtusele! */
     char c = mem_get();
