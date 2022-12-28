@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
     }
 
     /* Käivitame programmi, mille kasutaja andis käsurealt. */
-    interpret2(argv[1]);
+    interpret(argv[1]);
 
     return EXIT_SUCCESS;
 }

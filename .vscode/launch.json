@@ -9,9 +9,11 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/lib/interpreter",
-      "args": ["+++++[-]"],
+      "args": [
+        "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++."
+      ],
       "stopAtEntry": false,
-      "cwd": "${fileDirname}",
+      "cwd": "${workspaceFolder}",
       "environment": [],
       "externalConsole": false,
       "MIMode": "gdb",
