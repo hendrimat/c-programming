@@ -92,6 +92,14 @@ void BF_input_run(struct BF_instruction_st *instruction, int *index) {
     *index = *index + 1;
 }
 
+void BF_input_printAsm(struct BF_instruction_st *instruction, int *index) {
+    printf("    ;;;; Instruktsioon ,\n");
+    printf("    call getchar\n");
+    printf("    push eax\n");
+    printf("    call mem_set\n");
+    printf("    add esp, 4\n");
+}
+
 void BF_beginLoop_run(struct BF_instruction_st *instruction, int *index) {
     int val = mem_get();
 
